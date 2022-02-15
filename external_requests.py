@@ -1,5 +1,7 @@
-from config import WEATHER_SERVICE, WEATHER_URL
 import aiohttp
+
+from config import WEATHER_SERVICE, WEATHER_URL
+
 
 async def get_weather():
     # To test the timeout uncomment the next 2 lines

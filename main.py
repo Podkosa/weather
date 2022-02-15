@@ -1,10 +1,12 @@
 from datetime import datetime
-from database import SessionLocal, engine
-import models, schemas, crud
+import asyncio
+
 from fastapi import FastAPI, Request, Depends
 from sqlalchemy.orm import Session
+
+import database.models as models, schemas, database.crud as crud
+from database.database import SessionLocal, engine
 from external_requests import get_weather
-import asyncio
 
 
 models.Base.metadata.create_all(bind=engine)
@@ -30,9 +32,9 @@ async def weather(request: Request, db: Session = Depends(get_db)):
             weather_request.temperature = temperature
             weather_request = crud.update_weather_request(db=db, weather_request=weather_request)
             return {'temperature':temperature, 'response_time':datetime.utcnow()}
-        return 'External temperature request was unsuccessful. Please try again later.'
+        return {'error':'External temperature request was unsuccessful. Please try again later.'}
     except asyncio.TimeoutError:
-        return 'Resource is temporarily overloaded. Please try again later.'
+        return {'error':'Resource is temporarily overloaded. Please try again later.'}
 
 @app.get("/data")
 async def data(n: int = 10,  db: Session = Depends(get_db)):

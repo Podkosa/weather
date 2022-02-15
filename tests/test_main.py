@@ -1,15 +1,17 @@
 #Testing is done through pytest. A simple 'pytest' command from the CLI starts all the tests.
-
-from fastapi.testclient import TestClient
-from main import app, get_db
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from database import Base, create_engine
 import random
 import pytest
 
+from fastapi.testclient import TestClient
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+from main import app, get_db
+from database.database import Base, create_engine
+
+
 #Test DB setup
-SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:///./tests/test.db"
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
 )

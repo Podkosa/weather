@@ -1,5 +1,7 @@
-from database import Base
 from sqlalchemy import Column, Integer, DateTime, Float, JSON
+
+from database.database import Base
+
 
 class WeatherRequest(Base):
     __tablename__ = "weather_requests"
