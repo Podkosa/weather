@@ -4,8 +4,9 @@ import asyncio
 from fastapi import FastAPI, Request, Depends
 from sqlalchemy.orm import Session
 
-import database.models as models, schemas, database.crud as crud
+from database import models, crud
 from database.database import SessionLocal, engine
+import schemas
 from external_requests import get_weather
 
 
