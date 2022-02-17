@@ -1,5 +1,6 @@
 from datetime import datetime
 import asyncio
+import typing
 
 from fastapi import Request, Depends
 from fastapi import APIRouter
@@ -7,13 +8,13 @@ from sqlalchemy.orm import Session
 
 from database import crud
 from database.base import get_db
-import schemas
+import weather_requests.schemas as schemas
 from .external_requests import get_weather
 
 router = APIRouter()
 
 #As per test conditions, returns only the temperature and response time. If needed, can be modified to return more info.
-@router.get("/weather")
+@router.get("/weather", response_model=schemas.WeatherResponse)
 async def weather(request: Request, db: Session = Depends(get_db)):
     request_time = datetime.utcnow()
     weather_request = schemas.WeatherRequestBase(date=request_time, headers=request.headers)
@@ -28,7 +29,7 @@ async def weather(request: Request, db: Session = Depends(get_db)):
     except asyncio.TimeoutError:
         return {'error':'Resource is temporarily overloaded. Please try again later.'}
 
-@router.get("/data")
+@router.get("/data", response_model=typing.List[schemas.WeatherRequest])
 async def data(limit: int = 10,  db: Session = Depends(get_db)):
     weather_requests = crud.get_weather_requests(db, limit=limit)
     return weather_requests

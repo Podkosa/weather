@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-import database.models as models, schemas
+import database.models as models, weather_requests.schemas as schemas
     
     
 def create_weather_request(db: Session, weather_request: schemas.WeatherRequestBase):
@@ -18,4 +18,7 @@ def update_weather_request(db: Session, weather_request: schemas.WeatherRequestB
     return db_weather_request
 
 def get_weather_requests(db: Session, limit: int = 10):
+    a = db.query(models.WeatherRequest).order_by(models.WeatherRequest.id.desc()).limit(limit).all()
+    print(a)
+    print(type(a))
     return db.query(models.WeatherRequest).order_by(models.WeatherRequest.id.desc()).limit(limit).all()
