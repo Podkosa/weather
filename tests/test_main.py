@@ -7,13 +7,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from main import app, get_db
-from database.database import Base, create_engine
+from database.base import Base, create_engine
 
 
 #Test DB setup
-SQLALCHEMY_DATABASE_URL = "sqlite:///./tests/test.db"
+SQLALCHEMY_TEST_DATABASE_URL = "sqlite:///./tests/test_db.sqlite3"
 engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+    SQLALCHEMY_TEST_DATABASE_URL, connect_args={"check_same_thread": False}
 )
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

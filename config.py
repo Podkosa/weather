@@ -15,3 +15,6 @@ WEATHER_URL = {
 
 #Options: openweather, weatherbit, accuweather
 WEATHER_SERVICE = 'accuweather'
+
+# Database
+SQLALCHEMY_DATABASE_URL = "sqlite:///./database/db.sqlite3"

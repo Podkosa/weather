@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, DateTime, Float, JSON
 
-from database.database import Base
+from database.base import Base
 
 
 class WeatherRequest(Base):
