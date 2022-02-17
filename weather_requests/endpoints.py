@@ -19,6 +19,7 @@ async def weather(request: Request, db: Session = Depends(get_db)):
     request_time = datetime.utcnow()
     weather_request = schemas.WeatherRequestBase(date=request_time, headers=request.headers)
     weather_request = crud.create_weather_request(db=db, weather_request=weather_request)
+    
     try:
         temperature = await asyncio.wait_for(get_weather(), timeout=2)
         if temperature is not None:

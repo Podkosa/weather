@@ -18,7 +18,5 @@ def update_weather_request(db: Session, weather_request: schemas.WeatherRequestB
     return db_weather_request
 
 def get_weather_requests(db: Session, limit: int = 10):
-    a = db.query(models.WeatherRequest).order_by(models.WeatherRequest.id.desc()).limit(limit).all()
-    print(a)
-    print(type(a))
-    return db.query(models.WeatherRequest).order_by(models.WeatherRequest.id.desc()).limit(limit).all()
+    db_weather_requests = db.query(models.WeatherRequest).order_by(models.WeatherRequest.id.desc()).limit(limit).all()
+    return db_weather_requests

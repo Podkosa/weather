@@ -3,10 +3,12 @@ import aiohttp
 from config import WEATHER_SERVICE, WEATHER_URL
 
 
-async def get_weather():
+async def get_weather() -> float:
+    '''External request to a public weather API, specified in `config`. Returns temperature (`float`). '''
     # To test the timeout uncomment the next 2 lines
     # import asyncio
     # await asyncio.sleep(3)
+
     json = await api_request()
     if json is not None:
         if WEATHER_SERVICE == 'openweather':
