@@ -1,6 +1,7 @@
 import pytest
 
 from weather_requests import external_requests
+from config import WEATHER_URL
 
 @pytest.mark.asyncio
 async def test_weather_endpoint():
@@ -9,6 +10,6 @@ async def test_weather_endpoint():
 
 @pytest.mark.asyncio
 async def test_api_request():
-    dummy_url = 'not a url'
-    response = await external_requests.api_request(dummy_url)
-    assert response == None
+    for url in WEATHER_URL.values():
+        response = await external_requests.api_request(url)
+        assert response
