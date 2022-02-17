@@ -1,16 +1,14 @@
 from datetime import datetime
 import asyncio
 
-from fastapi import FastAPI, Request, Depends
+from fastapi import Request, Depends
 from fastapi import APIRouter
 from sqlalchemy.orm import Session
 
-from database import models, crud
-from database.base import SessionLocal, engine
-import schemas
-from external_requests import get_weather
-print('hey')
+from database import crud
 from database.base import get_db
+import schemas
+from .external_requests import get_weather
 
 router = APIRouter()
 
@@ -31,6 +29,6 @@ async def weather(request: Request, db: Session = Depends(get_db)):
         return {'error':'Resource is temporarily overloaded. Please try again later.'}
 
 @router.get("/data")
-async def data(n: int = 10,  db: Session = Depends(get_db)):
-    weather_requests = crud.get_weather_requests(db, limit=n)
+async def data(limit: int = 10,  db: Session = Depends(get_db)):
+    weather_requests = crud.get_weather_requests(db, limit=limit)
     return weather_requests

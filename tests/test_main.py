@@ -6,8 +6,8 @@ from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from main import app, get_db
-from database.base import Base, create_engine
+from main import app
+from database.base import Base, create_engine, get_db
 
 
 #Test DB setup
