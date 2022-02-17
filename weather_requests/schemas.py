@@ -8,7 +8,7 @@ class WeatherRequestBase(BaseModel):
 
 class WeatherRequest(WeatherRequestBase):
     id: int
-    temperature: float
+    temperature: float | None
     
     class Config:
         orm_mode = True

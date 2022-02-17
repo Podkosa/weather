@@ -3,7 +3,7 @@ import asyncio
 import typing
 
 from fastapi import Request, Depends
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from sqlalchemy.orm import Session
 
 from database import crud
@@ -26,9 +26,9 @@ async def weather(request: Request, db: Session = Depends(get_db)):
             weather_request.temperature = temperature
             weather_request = crud.update_weather_request(db=db, weather_request=weather_request)
             return {'temperature':temperature, 'response_time':datetime.utcnow()}
-        return {'error':'External temperature request was unsuccessful. Please try again later.'}
+        raise HTTPException (status_code=200, detail="External weather services are unavailable. Please try again later.")
     except asyncio.TimeoutError:
-        return {'error':'Resource is temporarily overloaded. Please try again later.'}
+        raise HTTPException (status_code=200, detail='Resource is temporarily overloaded. Please try again later.')
 
 @router.get("/data", response_model=typing.List[schemas.WeatherRequest])
 async def data(limit: int = 10,  db: Session = Depends(get_db)):
