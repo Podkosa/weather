@@ -1,5 +1,4 @@
-#Testing is done through pytest. A simple 'pytest' command from the CLI starts all the tests.
-import random
+#Testing is done through pytest. A CLI command 'pytest --asyncio-mode=strict' to start all tests.
 import pytest
 
 from fastapi.testclient import TestClient
@@ -9,9 +8,8 @@ from sqlalchemy.orm import sessionmaker
 from main import app
 from database.base import Base, create_engine, get_db
 
-
 #Test DB setup
-SQLALCHEMY_TEST_DATABASE_URL = "sqlite:///./tests/test_db.sqlite3"
+SQLALCHEMY_TEST_DATABASE_URL = "sqlite:///./testing/test_db.sqlite3"
 engine = create_engine(
     SQLALCHEMY_TEST_DATABASE_URL, connect_args={"check_same_thread": False}
 )
@@ -33,14 +31,3 @@ def test_db():
     Base.metadata.drop_all(bind=engine)
 
 client = TestClient(app)
-
-#Tests
-def test_weather(test_db):
-    response = client.get("/weather")
-    assert response.status_code == 200
-    assert type(response.json()) == dict
-
-def test_data(test_db):
-    response = client.get("/data", params={'n':random.randint(0, 100)})
-    assert response.status_code == 200
-    assert type(response.json()) == list
