@@ -11,9 +11,9 @@ async def get_weather():
     if json is not None:
         if WEATHER_SERVICE == 'openweather':
             return json['main']['temp']
-        if WEATHER_SERVICE == 'weatherbit':
+        elif WEATHER_SERVICE == 'weatherbit':
             return json['data'][0]['temp']
-        if WEATHER_SERVICE == 'accuweather':
+        elif WEATHER_SERVICE == 'accuweather':
             return json[0]['Temperature']['Metric']['Value']
     
 async def api_request():
