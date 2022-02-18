@@ -1,4 +1,6 @@
 import aiohttp
+from fastapi import HTTPException
+
 from config import WEATHER_URL
 
 
@@ -19,6 +21,8 @@ async def get_weather() -> float:
                 return json['data'][0]['temp']
             elif site == 'accuweather':
                 return json[0]['Temperature']['Metric']['Value']
+    raise HTTPException(status_code=504, detail="External weather services are unavailable. Please try again later.")
+        
     
 async def api_request(url):
     async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=0.5)) as session:
