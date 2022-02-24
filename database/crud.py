@@ -10,12 +10,11 @@ def create_weather_request(db: Session, weather_request: schemas.WeatherRequestB
     db.refresh(db_weather_request)
     return db_weather_request
 
-def update_weather_request(db: Session, weather_request: schemas.WeatherRequestBase):
-    db_weather_request = db.query(models.WeatherRequest).get(weather_request.id)
-    db.add(db_weather_request)
+def update_weather_request(db: Session, weather_request: models.WeatherRequest):
+    db.add(weather_request)
     db.commit()
-    db.refresh(db_weather_request)
-    return db_weather_request
+    db.refresh(weather_request)
+    return weather_request
 
 def get_weather_requests(db: Session, limit: int = 10):
     db_weather_requests = db.query(models.WeatherRequest).order_by(models.WeatherRequest.id.desc()).limit(limit).all()
