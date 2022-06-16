@@ -1,1 +1,4 @@
 🌦 Weather API 🌦
+
+Main endpoint /weather returns current air temperature, gathered asynchronously from public weather APIs.
+OpenAPI docs available at /docs.
