@@ -7,12 +7,10 @@ from sqlalchemy.orm import Session
 
 from database import crud
 from database.base import get_db
-import weather_requests.schemas as schemas
-from .external_requests import get_weather
+from weather_requests import schemas,  external_requests
 
 router = APIRouter()
 
-#As per test conditions, returns only the temperature and response time. If needed, can be modified to return more info.
 @router.get("/weather", response_model=schemas.WeatherResponse)
 async def weather(request: Request, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     request_time = datetime.utcnow()
@@ -20,7 +18,7 @@ async def weather(request: Request, background_tasks: BackgroundTasks, db: Sessi
     weather_request = crud.create_weather_request(db=db, weather_request=weather_request)
     
     try:
-        temperature = await asyncio.wait_for(get_weather(), timeout=2)
+        temperature = await asyncio.wait_for(external_requests.get_weather(), timeout=2)
         weather_request.temperature = temperature
         background_tasks.add_task(crud.update_weather_request, db=db, weather_request=weather_request)
         return {'temperature':temperature, 'response_time':datetime.utcnow()}

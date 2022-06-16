@@ -1,14 +1,14 @@
-# Normally not hardcoded
-API_KEYS = {
-    'openweather':'bc8058e81b58367caa9769b06d109692',
-    'weatherbit':'18b0482a647240d4a801ea0a9d18bc1a',
-    'accuweather':'FwM79Zba9fc5a89TMoMFFtn2oqK1ernt',
-}
+import os
 
 # Database
 SQLALCHEMY_DATABASE_URL = "sqlite:///./database/db.sqlite3"
 
 # External weather services (API)
+API_KEYS = {
+    'openweather': os.getenv('API_KEY_OPENWEATHER'),
+    'weatherbit': os.getenv('API_KEY_WEATHERBIT'),
+    'accuweather': os.getenv('API_KEY_ACCUWEATHER'),
+}
 # Openweather and Weatherbit are flexibile with the city name, accuweather is hardcoded for Moscow.
 CITY = 'moscow'
 WEATHER_URL = {
